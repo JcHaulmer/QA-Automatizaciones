@@ -1,0 +1,648 @@
+{
+	"info": {
+		"_postman_id": "232dbd91-a584-4fce-ab52-c528b48701bb",
+		"name": "Automatizacion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13259060",
+		"_collection_link": "https://restless-firefly-1360-1.postman.co/workspace/5268c47c-17b3-4497-8bf6-58f239819a5b/collection/13259060-232dbd91-a584-4fce-ab52-c528b48701bb?action=share&source=collection_link&creator=13259060"
+	},
+	"item": [
+		{
+			"name": "TOTALES",
+			"item": [
+				{
+					"name": "Descuento/Recargo Global",
+					"item": [
+						{
+							"name": "Descuento Porcentaje",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"a= new Date ()",
+											"var month = a.getMonth() + 1;",
+											"var day = a.getDate();",
+											"if (month < 10) month = '0' + month;",
+											"if (day < 10) day = '0' + day;",
+											"postman.setGlobalVariable(\"DateToday\", a.getFullYear() + \"-\" + month +  \"-\" + day);",
+											"",
+											"const idempotencyKey = Math.random().toString(36).substring(2, 15) +",
+											"  Math.random().toString(36).substring(2, 15);",
+											"",
+											"pm.environment.set(\"idempotencyKey\", idempotencyKey);",
+											"",
+											"pm.request.headers.add({",
+											"    key: 'Idempotency-Key',",
+											"    value: idempotencyKey",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response code 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Content-Type should be JSON\", function () {",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+											"});",
+											"pm.test(\"Response time is less than 10s\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(30000);",
+											"});",
+											"pm.test(\"Correct response\", () => {",
+											"    const responseData = pm.response.json();",
+											"    pm.expect(responseData).to.have.property('TOKEN').that.is.a('string');",
+											"    pm.expect(responseData).to.have.property('FOLIO').that.is.a('number');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apikey",
+										"value": "928e15a2d14d4a6292345f04960f4bd3"
+									},
+									{
+										"key": "Idempotency-Key",
+										"value": "fccb60fb512d13df5083790d64c4d5dd",
+										"disabled": true
+									},
+									{
+										"key": "Content-type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"response\":[\"FOLIO\"],\"dte\":{\"Encabezado\":{\"IdDoc\":{\"TipoDTE\":33,\"Folio\":0,\"FchEmis\":\"2023-10-23\",\"TpoTranCompra\":\"1\",\"TpoTranVenta\":\"1\",\"FmaPago\":\"2\"},\"Emisor\":{\"RUTEmisor\":\"76795561-8\",\"RznSoc\":\"HAULMER SPA\",\"GiroEmis\":\"VENTA AL POR MENOR POR CORREO, POR INTERNET Y VIA TELEFONICA\",\"Acteco\":\"479100\",\"DirOrigen\":\"ARTURO PRAT 527   CURICO\",\"CmnaOrigen\":\"Curicó\",\"Telefono\":\"0 0\",\"CdgSIISucur\":\"81303347\"},\"Receptor\":{\"RUTRecep\":\"76430498-5\",\"RznSocRecep\":\"HOSTY SPA\",\"GiroRecep\":\"ACTIVIDADES DE CONSULTORIA DE INFORMATIC\",\"DirRecep\":\"ARTURO PRAT 527 3 pis OF 1\",\"CmnaRecep\":\"Curicó\"},\"Totales\":{\"MntNeto\":2640,\"TasaIVA\":\"19\",\"IVA\":502,\"MntTotal\":3142,\"MontoPeriodo\":3142,\"VlrPagar\":3142}},\"Detalle\":[{\"NroLinDet\":1,\"NmbItem\":\"item 1\",\"QtyItem\":1,\"PrcItem\":2000,\"MontoItem\":2000},{\"NroLinDet\":2,\"NmbItem\":\"item 2\",\"QtyItem\":1,\"PrcItem\":1000,\"MontoItem\":1000}],\"DscRcgGlobal\":[{\"NroLinDR\":1,\"TpoMov\":\"D\",\"TpoValor\":\"%\",\"ValorDR\":\"12\"}]}}"
+								},
+								"url": {
+									"raw": "{{url-api-dev}}/v2/dte/document",
+									"host": [
+										"{{url-api-dev}}"
+									],
+									"path": [
+										"v2",
+										"dte",
+										"document"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Descuento Monto",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"a= new Date ()",
+											"var month = a.getMonth() + 1;",
+											"var day = a.getDate();",
+											"if (month < 10) month = '0' + month;",
+											"if (day < 10) day = '0' + day;",
+											"postman.setGlobalVariable(\"DateToday\", a.getFullYear() + \"-\" + month +  \"-\" + day);",
+											"",
+											"const idempotencyKey = Math.random().toString(36).substring(2, 15) +",
+											"  Math.random().toString(36).substring(2, 15);",
+											"",
+											"pm.environment.set(\"idempotencyKey\", idempotencyKey);",
+											"",
+											"pm.request.headers.add({",
+											"    key: 'Idempotency-Key',",
+											"    value: idempotencyKey",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response code 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Content-Type should be JSON\", function () {",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+											"});",
+											"pm.test(\"Response time is less than 10s\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(30000);",
+											"});",
+											"pm.test(\"Correct response\", () => {",
+											"    const responseData = pm.response.json();",
+											"    pm.expect(responseData).to.have.property('TOKEN').that.is.a('string');",
+											"    pm.expect(responseData).to.have.property('FOLIO').that.is.a('number');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apikey",
+										"value": "928e15a2d14d4a6292345f04960f4bd3"
+									},
+									{
+										"key": "Idempotency-Key",
+										"value": "fccb60fb512d13df5083790d64c4d5dd",
+										"disabled": true
+									},
+									{
+										"key": "Content-type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"response\":[\"FOLIO\"],\"dte\":{\"Encabezado\":{\"IdDoc\":{\"TipoDTE\":33,\"Folio\":0,\"FchEmis\":\"2023-10-23\",\"TpoTranCompra\":\"1\",\"TpoTranVenta\":\"1\",\"FmaPago\":\"2\"},\"Emisor\":{\"RUTEmisor\":\"76795561-8\",\"RznSoc\":\"HAULMER SPA\",\"GiroEmis\":\"VENTA AL POR MENOR POR CORREO, POR INTERNET Y VIA TELEFONICA\",\"Acteco\":\"479100\",\"DirOrigen\":\"ARTURO PRAT 527   CURICO\",\"CmnaOrigen\":\"Curicó\",\"Telefono\":\"0 0\",\"CdgSIISucur\":\"81303347\"},\"Receptor\":{\"RUTRecep\":\"76430498-5\",\"RznSocRecep\":\"HOSTY SPA\",\"GiroRecep\":\"ACTIVIDADES DE CONSULTORIA DE INFORMATIC\",\"DirRecep\":\"ARTURO PRAT 527 3 pis OF 1\",\"CmnaRecep\":\"Curicó\"},\"Totales\":{\"MntNeto\":1900,\"TasaIVA\":\"19\",\"IVA\":361,\"MntTotal\":2261,\"MontoPeriodo\":2261,\"VlrPagar\":2261}},\"Detalle\":[{\"NroLinDet\":1,\"NmbItem\":\"item 1\",\"QtyItem\":1,\"PrcItem\":2000,\"MontoItem\":2000}],\"DscRcgGlobal\":[{\"NroLinDR\":1,\"TpoMov\":\"D\",\"TpoValor\":\"$\",\"ValorDR\":\"100\"}]}}"
+								},
+								"url": {
+									"raw": "{{url-api-dev}}/v2/dte/document",
+									"host": [
+										"{{url-api-dev}}"
+									],
+									"path": [
+										"v2",
+										"dte",
+										"document"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Recargo Porcentaje",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"a= new Date ()",
+											"var month = a.getMonth() + 1;",
+											"var day = a.getDate();",
+											"if (month < 10) month = '0' + month;",
+											"if (day < 10) day = '0' + day;",
+											"postman.setGlobalVariable(\"DateToday\", a.getFullYear() + \"-\" + month +  \"-\" + day);",
+											"",
+											"const idempotencyKey = Math.random().toString(36).substring(2, 15) +",
+											"  Math.random().toString(36).substring(2, 15);",
+											"",
+											"pm.environment.set(\"idempotencyKey\", idempotencyKey);",
+											"",
+											"pm.request.headers.add({",
+											"    key: 'Idempotency-Key',",
+											"    value: idempotencyKey",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response code 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Content-Type should be JSON\", function () {",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+											"});",
+											"pm.test(\"Response time is less than 10s\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(30000);",
+											"});",
+											"pm.test(\"Correct response\", () => {",
+											"    const responseData = pm.response.json();",
+											"    pm.expect(responseData).to.have.property('TOKEN').that.is.a('string');",
+											"    pm.expect(responseData).to.have.property('FOLIO').that.is.a('number');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apikey",
+										"value": "928e15a2d14d4a6292345f04960f4bd3"
+									},
+									{
+										"key": "Idempotency-Key",
+										"value": "fccb60fb512d13df5083790d64c4d5dd",
+										"disabled": true
+									},
+									{
+										"key": "Content-type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"response\":[\"FOLIO\"],\"dte\":{\"Encabezado\":{\"IdDoc\":{\"TipoDTE\":33,\"Folio\":0,\"FchEmis\":\"2023-10-23\",\"TpoTranCompra\":\"1\",\"TpoTranVenta\":\"1\",\"FmaPago\":\"2\"},\"Emisor\":{\"RUTEmisor\":\"76795561-8\",\"RznSoc\":\"HAULMER SPA\",\"GiroEmis\":\"VENTA AL POR MENOR POR CORREO, POR INTERNET Y VIA TELEFONICA\",\"Acteco\":\"479100\",\"DirOrigen\":\"ARTURO PRAT 527   CURICO\",\"CmnaOrigen\":\"Curicó\",\"Telefono\":\"0 0\",\"CdgSIISucur\":\"81303347\"},\"Receptor\":{\"RUTRecep\":\"76430498-5\",\"RznSocRecep\":\"HOSTY SPA\",\"GiroRecep\":\"ACTIVIDADES DE CONSULTORIA DE INFORMATIC\",\"DirRecep\":\"ARTURO PRAT 527 3 pis OF 1\",\"CmnaRecep\":\"Curicó\"},\"Totales\":{\"MntNeto\":3300,\"TasaIVA\":\"19\",\"IVA\":627,\"MntTotal\":3927,\"MontoPeriodo\":3927,\"VlrPagar\":3927}},\"Detalle\":[{\"NroLinDet\":1,\"NmbItem\":\"item 1\",\"QtyItem\":1,\"PrcItem\":2000,\"MontoItem\":2000},{\"NroLinDet\":2,\"NmbItem\":\"item 2\",\"QtyItem\":1,\"PrcItem\":1000,\"MontoItem\":1000}],\"DscRcgGlobal\":[{\"NroLinDR\":1,\"TpoMov\":\"R\",\"TpoValor\":\"%\",\"ValorDR\":\"10\"}]}}"
+								},
+								"url": {
+									"raw": "{{url-api-dev}}/v2/dte/document",
+									"host": [
+										"{{url-api-dev}}"
+									],
+									"path": [
+										"v2",
+										"dte",
+										"document"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Recargo Monto",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"a= new Date ()",
+											"var month = a.getMonth() + 1;",
+											"var day = a.getDate();",
+											"if (month < 10) month = '0' + month;",
+											"if (day < 10) day = '0' + day;",
+											"postman.setGlobalVariable(\"DateToday\", a.getFullYear() + \"-\" + month +  \"-\" + day);",
+											"",
+											"const idempotencyKey = Math.random().toString(36).substring(2, 15) +",
+											"  Math.random().toString(36).substring(2, 15);",
+											"",
+											"pm.environment.set(\"idempotencyKey\", idempotencyKey);",
+											"",
+											"pm.request.headers.add({",
+											"    key: 'Idempotency-Key',",
+											"    value: idempotencyKey",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response code 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Content-Type should be JSON\", function () {",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+											"});",
+											"pm.test(\"Response time is less than 10s\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(30000);",
+											"});",
+											"pm.test(\"Correct response\", () => {",
+											"    const responseData = pm.response.json();",
+											"    pm.expect(responseData).to.have.property('TOKEN').that.is.a('string');",
+											"    pm.expect(responseData).to.have.property('FOLIO').that.is.a('number');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apikey",
+										"value": "928e15a2d14d4a6292345f04960f4bd3"
+									},
+									{
+										"key": "Idempotency-Key",
+										"value": "fccb60fb512d13df5083790d64c4d5dq",
+										"disabled": true
+									},
+									{
+										"key": "Content-type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"response\":[\"FOLIO\"],\"dte\":{\"Encabezado\":{\"IdDoc\":{\"TipoDTE\":33,\"Folio\":0,\"FchEmis\":\"2023-10-23\",\"TpoTranCompra\":\"1\",\"TpoTranVenta\":\"1\",\"FmaPago\":\"2\"},\"Emisor\":{\"RUTEmisor\":\"76795561-8\",\"RznSoc\":\"HAULMER SPA\",\"GiroEmis\":\"VENTA AL POR MENOR POR CORREO, POR INTERNET Y VIA TELEFONICA\",\"Acteco\":\"479100\",\"DirOrigen\":\"ARTURO PRAT 527   CURICO\",\"CmnaOrigen\":\"Curicó\",\"Telefono\":\"0 0\",\"CdgSIISucur\":\"81303347\"},\"Receptor\":{\"RUTRecep\":\"76430498-5\",\"RznSocRecep\":\"HOSTY SPA\",\"GiroRecep\":\"ACTIVIDADES DE CONSULTORIA DE INFORMATIC\",\"DirRecep\":\"ARTURO PRAT 527 3 pis OF 1\",\"CmnaRecep\":\"Curicó\"},\"Totales\":{\"MntNeto\":3300,\"TasaIVA\":\"19\",\"IVA\":627,\"MntTotal\":3927,\"MontoPeriodo\":3927,\"VlrPagar\":3927}},\"Detalle\":[{\"NroLinDet\":1,\"NmbItem\":\"item 1\",\"QtyItem\":1,\"PrcItem\":2000,\"MontoItem\":2000},{\"NroLinDet\":2,\"NmbItem\":\"item 2\",\"QtyItem\":1,\"PrcItem\":1000,\"MontoItem\":1000}],\"DscRcgGlobal\":[{\"NroLinDR\":1,\"TpoMov\":\"R\",\"TpoValor\":\"$\",\"ValorDR\":\"300\"}]}}"
+								},
+								"url": {
+									"raw": "{{url-api-dev}}/v2/dte/document",
+									"host": [
+										"{{url-api-dev}}"
+									],
+									"path": [
+										"v2",
+										"dte",
+										"document"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Credito empresas constructoras",
+					"item": [
+						{
+							"name": "65% IVA",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"a= new Date ()",
+											"var month = a.getMonth() + 1;",
+											"var day = a.getDate();",
+											"if (month < 10) month = '0' + month;",
+											"if (day < 10) day = '0' + day;",
+											"postman.setGlobalVariable(\"DateToday\", a.getFullYear() + \"-\" + month +  \"-\" + day);",
+											"",
+											"const idempotencyKey = Math.random().toString(36).substring(2, 15) +",
+											"  Math.random().toString(36).substring(2, 15);",
+											"",
+											"pm.environment.set(\"idempotencyKey\", idempotencyKey);",
+											"",
+											"pm.request.headers.add({",
+											"    key: 'Idempotency-Key',",
+											"    value: idempotencyKey",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response code 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Content-Type should be JSON\", function () {",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+											"});",
+											"pm.test(\"Response time is less than 10s\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(30000);",
+											"});",
+											"pm.test(\"Correct response\", () => {",
+											"    const responseData = pm.response.json();",
+											"    pm.expect(responseData).to.have.property('TOKEN').that.is.a('string');",
+											"    pm.expect(responseData).to.have.property('FOLIO').that.is.a('number');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apikey",
+										"value": "928e15a2d14d4a6292345f04960f4bd3"
+									},
+									{
+										"key": "Idempotency-Key",
+										"value": "fccb60fb512d13df5083790d64c4d5dd",
+										"disabled": true
+									},
+									{
+										"key": "Content-type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"response\":[\"FOLIO\"],\"dte\":{\"Encabezado\":{\"IdDoc\":{\"TipoDTE\":33,\"Folio\":0,\"FchEmis\":\"2023-10-23\",\"TpoTranCompra\":\"1\",\"TpoTranVenta\":\"1\",\"FmaPago\":\"2\"},\"Emisor\":{\"RUTEmisor\":\"76795561-8\",\"RznSoc\":\"HAULMER SPA\",\"GiroEmis\":\"VENTA AL POR MENOR POR CORREO, POR INTERNET Y VIA TELEFONICA\",\"Acteco\":\"479100\",\"DirOrigen\":\"ARTURO PRAT 527   CURICO\",\"CmnaOrigen\":\"Curicó\",\"Telefono\":\"0 0\",\"CdgSIISucur\":\"81303347\"},\"Receptor\":{\"RUTRecep\":\"76430498-5\",\"RznSocRecep\":\"HOSTY SPA\",\"GiroRecep\":\"ACTIVIDADES DE CONSULTORIA DE INFORMATIC\",\"DirRecep\":\"ARTURO PRAT 527 3 pis OF 1\",\"CmnaRecep\":\"Curicó\"},\"Totales\":{\"MntNeto\":80000000,\"TasaIVA\":\"19\",\"IVA\":15200000,\"MntTotal\":85320000,\"CredEC\":9880000,\"MontoPeriodo\":85320000,\"VlrPagar\":85320000}},\"Detalle\":[{\"NroLinDet\":1,\"NmbItem\":\"item 1\",\"QtyItem\":1,\"PrcItem\":80000000,\"MontoItem\":80000000}]}}"
+								},
+								"url": {
+									"raw": "{{url-api-dev}}/v2/dte/document",
+									"host": [
+										"{{url-api-dev}}"
+									],
+									"path": [
+										"v2",
+										"dte",
+										"document"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Menos 65% IVA",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"a= new Date ()",
+											"var month = a.getMonth() + 1;",
+											"var day = a.getDate();",
+											"if (month < 10) month = '0' + month;",
+											"if (day < 10) day = '0' + day;",
+											"postman.setGlobalVariable(\"DateToday\", a.getFullYear() + \"-\" + month +  \"-\" + day);",
+											"",
+											"const idempotencyKey = Math.random().toString(36).substring(2, 15) +",
+											"  Math.random().toString(36).substring(2, 15);",
+											"",
+											"pm.environment.set(\"idempotencyKey\", idempotencyKey);",
+											"",
+											"pm.request.headers.add({",
+											"    key: 'Idempotency-Key',",
+											"    value: idempotencyKey",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response code 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Content-Type should be JSON\", function () {",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+											"});",
+											"pm.test(\"Response time is less than 10s\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(30000);",
+											"});",
+											"pm.test(\"Correct response\", () => {",
+											"    const responseData = pm.response.json();",
+											"    pm.expect(responseData).to.have.property('TOKEN').that.is.a('string');",
+											"    pm.expect(responseData).to.have.property('FOLIO').that.is.a('number');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apikey",
+										"value": "928e15a2d14d4a6292345f04960f4bd3"
+									},
+									{
+										"key": "Idempotency-Key",
+										"value": "fccb60fb512d13df5083790d64c4d5dd",
+										"disabled": true
+									},
+									{
+										"key": "Content-type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"response\":[\"FOLIO\"],\"dte\":{\"Encabezado\":{\"IdDoc\":{\"TipoDTE\":33,\"Folio\":0,\"FchEmis\":\"2023-10-23\",\"TpoTranCompra\":\"1\",\"TpoTranVenta\":\"1\",\"FmaPago\":\"2\"},\"Emisor\":{\"RUTEmisor\":\"76795561-8\",\"RznSoc\":\"HAULMER SPA\",\"GiroEmis\":\"VENTA AL POR MENOR POR CORREO, POR INTERNET Y VIA TELEFONICA\",\"Acteco\":\"479100\",\"DirOrigen\":\"ARTURO PRAT 527   CURICO\",\"CmnaOrigen\":\"Curicó\",\"Telefono\":\"0 0\",\"CdgSIISucur\":\"81303347\"},\"Receptor\":{\"RUTRecep\":\"76430498-5\",\"RznSocRecep\":\"HOSTY SPA\",\"GiroRecep\":\"ACTIVIDADES DE CONSULTORIA DE INFORMATIC\",\"DirRecep\":\"ARTURO PRAT 527 3 pis OF 1\",\"CmnaRecep\":\"Curicó\"},\"Totales\":{\"MntNeto\":80000000,\"TasaIVA\":\"19\",\"IVA\":15200000,\"MntTotal\":89700000,\"CredEC\":5500000,\"MontoPeriodo\":89700000,\"VlrPagar\":89700000}},\"Detalle\":[{\"NroLinDet\":1,\"NmbItem\":\"item 1\",\"QtyItem\":1,\"PrcItem\":80000000,\"MontoItem\":80000000}]}}"
+								},
+								"url": {
+									"raw": "{{url-api-dev}}/v2/dte/document",
+									"host": [
+										"{{url-api-dev}}"
+									],
+									"path": [
+										"v2",
+										"dte",
+										"document"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Saldo anterior",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"a= new Date ()",
+											"var month = a.getMonth() + 1;",
+											"var day = a.getDate();",
+											"if (month < 10) month = '0' + month;",
+											"if (day < 10) day = '0' + day;",
+											"postman.setGlobalVariable(\"DateToday\", a.getFullYear() + \"-\" + month +  \"-\" + day);",
+											"",
+											"const idempotencyKey = Math.random().toString(36).substring(2, 15) +",
+											"  Math.random().toString(36).substring(2, 15);",
+											"",
+											"pm.environment.set(\"idempotencyKey\", idempotencyKey);",
+											"",
+											"pm.request.headers.add({",
+											"    key: 'Idempotency-Key',",
+											"    value: idempotencyKey",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response code 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Content-Type should be JSON\", function () {",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+											"});",
+											"pm.test(\"Response time is less than 10s\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(30000);",
+											"});",
+											"pm.test(\"Correct response\", () => {",
+											"    const responseData = pm.response.json();",
+											"    pm.expect(responseData).to.have.property('TOKEN').that.is.a('string');",
+											"    pm.expect(responseData).to.have.property('FOLIO').that.is.a('number');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apikey",
+										"value": "928e15a2d14d4a6292345f04960f4bd3"
+									},
+									{
+										"key": "Idempotency-Key",
+										"value": "fccb60fb512d13df5083790d64c4d5dd",
+										"disabled": true
+									},
+									{
+										"key": "Content-type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"response\":[\"FOLIO\"],\"dte\":{\"Encabezado\":{\"IdDoc\":{\"TipoDTE\":33,\"Folio\":0,\"FchEmis\":\"2023-10-23\",\"TpoTranCompra\":\"1\",\"TpoTranVenta\":\"1\",\"FmaPago\":\"2\"},\"Emisor\":{\"RUTEmisor\":\"76795561-8\",\"RznSoc\":\"HAULMER SPA\",\"GiroEmis\":\"VENTA AL POR MENOR POR CORREO, POR INTERNET Y VIA TELEFONICA\",\"Acteco\":\"479100\",\"DirOrigen\":\"ARTURO PRAT 527   CURICO\",\"CmnaOrigen\":\"Curicó\",\"Telefono\":\"0 0\",\"CdgSIISucur\":\"81303347\"},\"Receptor\":{\"RUTRecep\":\"76430498-5\",\"RznSocRecep\":\"HOSTY SPA\",\"GiroRecep\":\"ACTIVIDADES DE CONSULTORIA DE INFORMATIC\",\"DirRecep\":\"ARTURO PRAT 527 3 pis OF 1\",\"CmnaRecep\":\"Curicó\"},\"Totales\":{\"MntNeto\":80000000,\"TasaIVA\":\"19\",\"IVA\":15200000,\"MntTotal\":89700000,\"CredEC\":5500000,\"MontoPeriodo\":89700000,\"SaldoAnterior\":2000000,\"VlrPagar\":91700000}},\"Detalle\":[{\"NroLinDet\":1,\"NmbItem\":\"item 1\",\"QtyItem\":1,\"PrcItem\":80000000,\"MontoItem\":80000000}]}}"
+								},
+								"url": {
+									"raw": "{{url-api-dev}}/v2/dte/document",
+									"host": [
+										"{{url-api-dev}}"
+									],
+									"path": [
+										"v2",
+										"dte",
+										"document"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
