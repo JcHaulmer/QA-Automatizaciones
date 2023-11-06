@@ -1,0 +1,51 @@
+{
+	"id": "f8b077dd-ef06-4831-8a62-146a4f3149b7",
+	"name": "Develop",
+	"values": [
+		{
+			"key": "url-v3",
+			"value": "https://api.haulmer.dev/v3",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "service-apikey",
+			"value": "9c765c38-ae3a-4bd2-ac5a-9120601d3e30",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "contribuyente",
+			"value": "76264675",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "saleKey",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "transactionKey",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "url-sales",
+			"value": "https://dev-sales-backend-core.azurewebsites.net/protected",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "url-backend",
+			"value": "https://dev-payment-account-backend-core.azurewebsites.net/public",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-11-06T12:20:47.796Z",
+	"_postman_exported_using": "Postman/10.19.14"
+}

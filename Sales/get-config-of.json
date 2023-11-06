@@ -1,0 +1,207 @@
+{
+	"info": {
+		"_postman_id": "485da7e1-11c1-4bea-89c1-abc06570d293",
+		"name": "Get Config OF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13259060"
+	},
+	"item": [
+		{
+			"name": "True-Validar schema",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//valida response con codigo http 200",
+							"pm.test(\"success code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// valida en response headers como Content-Type sea text/html",
+							"pm.test(\"Content-Type should be HTML\", function () {",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html; charset=utf-8');",
+							"});",
+							"//valida response time menor a 6500ms",
+							"pm.test(\"Response time is less than 6500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(6500);",
+							"});",
+							"//valida schema de response",
+							"const jsonSchema = {",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"detailsOF\": {",
+							"      \"type\": \"object\",",
+							"      \"properties\": {",
+							"        \"rut\": { \"type\": \"string\", \"pattern\": \"^\\\\d{8}-[0-9kK]$\" },",
+							"        \"companyName\": { \"type\": \"string\" },",
+							"        \"declarationModel\": { \"type\": \"number\" },",
+							"        \"address\": { \"type\": \"string\" },",
+							"        \"regionalAddress\": { \"type\": \"string\" },",
+							"        \"municipality\": { \"type\": \"string\" },",
+							"        \"city\": { \"type\": \"string\" },",
+							"        \"cdgSIISucur\": { \"type\": \"string\" },",
+							"        \"activity\": {\"type\": \"object\",},",
+							"        \"authorizedDocuments\": {\"type\": \"array\",",
+							"          \"items\": {\"type\": \"object\",",
+							"            \"properties\": {",
+							"              \"dte\": { \"type\": \"number\" },",
+							"              \"type\": { \"type\": \"string\" }",
+							"            },",
+							"            \"required\": [\"dte\", \"type\"]",
+							"          }",
+							"        }",
+							"      },",
+							"      \"required\": [",
+							"        \"rut\",",
+							"        \"companyName\",",
+							"        \"declarationModel\",",
+							"        \"address\",",
+							"        \"regionalAddress\",",
+							"        \"municipality\",",
+							"        \"city\",",
+							"        \"cdgSIISucur\",",
+							"        \"activity\",",
+							"        \"authorizedDocuments\"",
+							"      ]",
+							"    }",
+							"  },",
+							"  \"required\": [\"detailsOF\"]",
+							"};",
+							"",
+							"pm.test(\"Validar esquema JSON\", function () {",
+							"  pm.response.to.have.jsonSchema(jsonSchema);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Client-Cert",
+						"value": "MIIC6TCCAo6gAwIBAgIIVB7WNhxB7d8wCgYIKoZIzj0EAwIwLzEtMCsGA1UEAxMkVGVzdCBIYXVsbWVyIEVkZ2UgQ0EgSW50ZXJtZWRpYXRlIDAyMB4XDTIxMDgxMzE1MDcyOVoXDTIxMTExMTE1MDcyOVowGDEWMBQGA1UEAxMNUEIwNDE5QUw2MDcwMDCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBAK4pDoIQqI5bV6ljVIeVBayailMhf3KUq94GKKBAHK3jBUIboXUo/gjEfDF1CeUGPcj5/foUBkhNFQyeDeHIQGH5EhXY1MY1hmGhlNByWc+BOxPPVwITM9IG7SGQAOzFIh24RKeCcYTaEvJ83qVDQ1d5A1YGOyvtTZqiCgVM4VgwwfkAMoMmsLA9AF7n8yq4QWHeLWYOsrM1XQcZq/5dEUPVvWp/0wEPFCnigu4yJkUe/Xi8dh3pctV2rBdegL+7CbXmDY8FkZxHuTZgvrIkjJ3q1psEz9zj0lx1gpt8+0GYI5rET6ML78J3wBXNmCpBi70SqvAd6v7ong3Npv1Hi6+4Gyl54FNPhTASAqQ3+FvEHd5lC02NwON2DHN71hH8IjQPdgNDuCq7ds1eWUYXLR+LZOPr0eA+82aVqCro7G8Q3mpEwPk74YnVYo8ZJbf/KfCN0ORX40QNAkS4lQij/16T3RdIf7yriyI4j5ral1c0RHNFIJyTAW1jW20Zn9RzuwIDAQABo2AwXjAdBgNVHQ4EFgQUFqrhT0NCyCHYUxUaLBfXNpri2o0wHwYDVR0jBBgwFoAUuRxj+9RXrdnicOIl3OtkLVF4pVcwDgYDVR0PAQH/BAQDAgeAMAwGA1UdEwQFMAMBAQAwCgYIKoZIzj0EAwIDSQAwRgIhANDjU7C8Czbbm4uFNqphGYLL4FHXda54gRV76B3J3/qKAiEAzTaLzoqOZ/CzYQN+1Qg3Op6GZPLhTxEEzX8rVOG20uE=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"serial\": \"PB30213H20041\",\n    \"apikeyOF\": \"cc6dee3d26f94eb9875bba311fa80165\",\n    \"OFDataOnly\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-backend}}/device/config",
+					"host": [
+						"{{url-backend}}"
+					],
+					"path": [
+						"device",
+						"config"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "False-Validar schema",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//valida response con codigo http 200",
+							"pm.test(\"success code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// valida en response headers como Content-Type sea text/html",
+							"pm.test(\"Content-Type should be HTML\", function () {",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html; charset=utf-8');",
+							"});",
+							"//valida response time menor a 6500ms",
+							"pm.test(\"Response time is less than 6500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(6500);",
+							"});",
+							"// validar response schema",
+							"pm.test(\"Response schema is valid\", function () {",
+							"    var responseJSON = pm.response.json();",
+							"",
+							"    pm.expect(responseJSON).to.be.an('object');",
+							"    pm.expect(responseJSON).to.have.property('detailsOF');",
+							"",
+							"    var detailsOF = responseJSON.detailsOF;",
+							"    pm.expect(detailsOF).to.be.an('object');",
+							"    pm.expect(detailsOF).to.have.property('rut').that.is.a('string');",
+							"    pm.expect(detailsOF).to.have.property('companyName').that.is.a('string');",
+							"    pm.expect(detailsOF).to.have.property('declarationModel').that.is.a('number');",
+							"    pm.expect(detailsOF).to.have.property('address').that.is.a('string');",
+							"    pm.expect(detailsOF).to.have.property('regionalAddress').that.is.a('string');",
+							"    pm.expect(detailsOF).to.have.property('municipality').that.is.a('string');",
+							"    pm.expect(detailsOF).to.have.property('city').that.is.a('string');",
+							"    pm.expect(detailsOF).to.have.property('cdgSIISucur').that.is.a('string');",
+							"    pm.expect(detailsOF).to.have.property('activity').that.is.an('object');",
+							"    pm.expect(detailsOF).to.have.property('authorizedDocuments').that.is.an('array');",
+							"",
+							"    var activity = detailsOF.activity;",
+							"    pm.expect(activity).to.be.an('object');",
+							"    pm.expect(activity).to.have.property('business').that.is.a('string');",
+							"    pm.expect(activity).to.have.property('acteco').that.is.a('string');",
+							"    pm.expect(activity).to.have.property('actecoCode').that.is.a('string');",
+							"    pm.expect(activity).to.have.property('mainActivity').that.is.a('boolean');",
+							"",
+							"    var authorizedDocuments = detailsOF.authorizedDocuments;",
+							"    pm.expect(authorizedDocuments).to.be.an('array');",
+							"    authorizedDocuments.forEach(function(document) {",
+							"        pm.expect(document).to.be.an('object');",
+							"        pm.expect(document).to.have.property('dte').that.is.a('number');",
+							"        pm.expect(document).to.have.property('type').that.is.a('string');",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Client-Cert",
+						"value": "MIIC6TCCAo6gAwIBAgIIVB7WNhxB7d8wCgYIKoZIzj0EAwIwLzEtMCsGA1UEAxMkVGVzdCBIYXVsbWVyIEVkZ2UgQ0EgSW50ZXJtZWRpYXRlIDAyMB4XDTIxMDgxMzE1MDcyOVoXDTIxMTExMTE1MDcyOVowGDEWMBQGA1UEAxMNUEIwNDE5QUw2MDcwMDCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBAK4pDoIQqI5bV6ljVIeVBayailMhf3KUq94GKKBAHK3jBUIboXUo/gjEfDF1CeUGPcj5/foUBkhNFQyeDeHIQGH5EhXY1MY1hmGhlNByWc+BOxPPVwITM9IG7SGQAOzFIh24RKeCcYTaEvJ83qVDQ1d5A1YGOyvtTZqiCgVM4VgwwfkAMoMmsLA9AF7n8yq4QWHeLWYOsrM1XQcZq/5dEUPVvWp/0wEPFCnigu4yJkUe/Xi8dh3pctV2rBdegL+7CbXmDY8FkZxHuTZgvrIkjJ3q1psEz9zj0lx1gpt8+0GYI5rET6ML78J3wBXNmCpBi70SqvAd6v7ong3Npv1Hi6+4Gyl54FNPhTASAqQ3+FvEHd5lC02NwON2DHN71hH8IjQPdgNDuCq7ds1eWUYXLR+LZOPr0eA+82aVqCro7G8Q3mpEwPk74YnVYo8ZJbf/KfCN0ORX40QNAkS4lQij/16T3RdIf7yriyI4j5ral1c0RHNFIJyTAW1jW20Zn9RzuwIDAQABo2AwXjAdBgNVHQ4EFgQUFqrhT0NCyCHYUxUaLBfXNpri2o0wHwYDVR0jBBgwFoAUuRxj+9RXrdnicOIl3OtkLVF4pVcwDgYDVR0PAQH/BAQDAgeAMAwGA1UdEwQFMAMBAQAwCgYIKoZIzj0EAwIDSQAwRgIhANDjU7C8Czbbm4uFNqphGYLL4FHXda54gRV76B3J3/qKAiEAzTaLzoqOZ/CzYQN+1Qg3Op6GZPLhTxEEzX8rVOG20uE=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"serial\": \"PB30213H20041\",\n    \"apikeyOF\": \"cc6dee3d26f94eb9875bba311fa80165\",\n    \"OFDataOnly\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-backend}}/device/config",
+					"host": [
+						"{{url-backend}}"
+					],
+					"path": [
+						"device",
+						"config"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
