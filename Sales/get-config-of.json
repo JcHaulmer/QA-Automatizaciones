@@ -33,7 +33,7 @@
 							"      \"type\": \"object\",",
 							"      \"properties\": {",
 							"        \"rut\": { \"type\": \"string\", \"pattern\": \"^\\\\d{8}-[0-9kK]$\" },",
-							"        \"companyName\": { \"type\": \"string\" },",
+							"        \"companyName\": { \"type\": \"number\" },",
 							"        \"declarationModel\": { \"type\": \"number\" },",
 							"        \"address\": { \"type\": \"string\" },",
 							"        \"regionalAddress\": { \"type\": \"string\" },",
