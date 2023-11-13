@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "64ce6901-cb29-4431-9e92-3ab214ad4335",
+		"name": "Detalles Links Autoservicio",
+		"description": "Permite obtener información adicional asociada a un de link de autoservicio generado por un contribuyente desde cualquier integración de OpenFactura\n\n- Request\n    \n\nMétodo = `GET`\n\nURL base = `http://devhaulmer.azure-api.net/internal/v3/dte/core/admin`\n\nEndpoint= `/selfservice/document/:rut/:token`\n\n- Parámetros\n    \n\n`rut`: Rut contribuyente sin DV\n\n`token`: Token autoservicio\n\n- Autorization:\n    \n\nType(`API Key`)- Key(`apikey`)-Value(`apikey interna rut`)\n\n- Pruebas\n    \n\n`HTTP 200` = Validar schema",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13259060",
+		"_collection_link": "https://restless-firefly-1360-1.postman.co/workspace/QA---Automatizaci%C3%B3n---TN~5268c47c-17b3-4497-8bf6-58f239819a5b/collection/13259060-64ce6901-cb29-4431-9e92-3ab214ad4335?action=share&source=collection_link&creator=13259060"
+	},
+	"item": [
+		{
+			"name": "Detalle enlace [Boxhosting]",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//valida response con codigo http 200",
+							"pm.test(\"Process code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// valida en response headers como Content-Type sea application/json",
+							"pm.test(\"Content-Type should be JSON\", function () {",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"});",
+							"//valida response time menor a 2000s",
+							"pm.test(\"Response time is less than 2000s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"//valida respuesta con datos correctos",
+							"pm.test(\"Correct response\", () => {",
+							"    const responseJSON = pm.response.json();",
+							"    pm.expect(responseJSON).to.have.property('message').that.is.a('string');",
+							"    pm.expect(responseJSON.message).to.equal('El detalle del documento fue obtenido exitosamente');",
+							"    pm.expect(responseJSON).to.have.property('code').that.is.a('string');",
+							"    pm.expect(responseJSON.code).to.equal('OF-OK');",
+							"    pm.expect(responseJSON).to.have.property('details').that.is.a('object');",
+							"    pm.expect(responseJSON.details.emisor).to.equal(76264675);",
+							"    pm.expect(responseJSON.details.token).that.is.a('string');",
+							"    pm.expect(responseJSON.details.origen).that.is.a('string');",
+							"    pm.expect(responseJSON.details.url).that.is.a('string');",
+							"    pm.expect(responseJSON.details.fecha).that.is.a('string');",
+							"    pm.expect(responseJSON.details.email).that.is.a('string');",
+							"    pm.expect(responseJSON.details.config).that.is.a('object');",
+							"    pm.expect(responseJSON.details.config.invoice).that.is.a('boolean');",
+							"    pm.expect(responseJSON.details.config.ticket).that.is.a('boolean');",
+							"    pm.expect(responseJSON.details.estado).that.is.a('string');",
+							"    pm.expect(responseJSON.details.docs.ticket.dte).that.is.a('number').and.to.equal(39);",
+							"    pm.expect(responseJSON.details.docs.ticket.folio).that.is.a('number').and.to.equal(30125112);",
+							"    pm.expect(responseJSON.details.docs.ticket.fecha).that.is.a('string').and.to.equal('2023-11-10');",
+							"    pm.expect(responseJSON.details.docs.ticket.estado).that.is.a('string').and.to.equal('Anulado');",
+							"    pm.expect(responseJSON.details.docs.ticket.neto).that.is.a('number').and.to.equal(4958);",
+							"    pm.expect(responseJSON.details.docs.ticket.iva).that.is.a('number').and.to.equal(942);",
+							"    pm.expect(responseJSON.details.docs.ticket.exento).that.is.a('number').and.to.equal(3019);",
+							"    pm.expect(responseJSON.details.docs.ticket.total).that.is.a('number').and.to.equal(8919);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "b159c92b3715413980398fae21b32092",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "apikey",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-dev-v3}}/selfservice/document/:rut/:token",
+					"host": [
+						"{{url-dev-v3}}"
+					],
+					"path": [
+						"selfservice",
+						"document",
+						":rut",
+						":token"
+					],
+					"variable": [
+						{
+							"key": "rut",
+							"value": "76264675"
+						},
+						{
+							"key": "token",
+							"value": "f59ad0c1a9b650bc43b9e2855980b1876dec9a3d50a70faf1043124a1390526bNzYyNjQ2NzUjU1MjYWMwODgzNzhhOTE5YTBkNmQxZGU3NzQ5NzY2MTI5NDI="
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detalle enlace [Opencloud]",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//valida response con codigo http 200",
+							"pm.test(\"Process code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// valida en response headers como Content-Type sea application/json",
+							"pm.test(\"Content-Type should be JSON\", function () {",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"});",
+							"//valida response time menor a 2000ms",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"//valida respuesta con datos correctos",
+							"pm.test(\"Correct response\", () => {",
+							"    const responseJSON = pm.response.json();",
+							"    pm.expect(responseJSON).to.have.property('message').that.is.a('string');",
+							"    pm.expect(responseJSON.message).to.equal('El detalle del documento fue obtenido exitosamente');",
+							"    pm.expect(responseJSON).to.have.property('code').that.is.a('string');",
+							"    pm.expect(responseJSON.code).to.equal('OF-OK');",
+							"    pm.expect(responseJSON).to.have.property('details').that.is.a('object');",
+							"    pm.expect(responseJSON.details.emisor).to.equal(76539108);",
+							"    pm.expect(responseJSON.details.token).that.is.a('string');",
+							"    pm.expect(responseJSON.details.origen).that.is.a('string');",
+							"    pm.expect(responseJSON.details.url).that.is.a('string');",
+							"    pm.expect(responseJSON.details.fecha).that.is.a('string');",
+							"    pm.expect(responseJSON.details.email).that.is.a('string');",
+							"    pm.expect(responseJSON.details.config).that.is.a('object');",
+							"    pm.expect(responseJSON.details.config.invoice).that.is.a('boolean');",
+							"    pm.expect(responseJSON.details.config.ticket).that.is.a('boolean');",
+							"    pm.expect(responseJSON.details.estado).that.is.a('string');",
+							"    pm.expect(responseJSON.details.docs.ticket.dte).that.is.a('number').and.to.equal(41);",
+							"    pm.expect(responseJSON.details.docs.ticket.folio).that.is.a('number').and.to.equal(92);",
+							"    pm.expect(responseJSON.details.docs.ticket.fecha).that.is.a('string').and.to.equal('2023-10-29');",
+							"    pm.expect(responseJSON.details.docs.ticket.estado).that.is.a('string').and.to.equal('Emitido');",
+							"    pm.expect(responseJSON.details.docs.ticket.neto).that.is.a('number').and.to.equal(0);",
+							"    pm.expect(responseJSON.details.docs.ticket.iva).that.is.a('number').and.to.equal(0);",
+							"    pm.expect(responseJSON.details.docs.ticket.exento).that.is.a('number').and.to.equal(5000);",
+							"    pm.expect(responseJSON.details.docs.ticket.total).that.is.a('number').and.to.equal(5000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "5718582a263549a98c0ed00c46343734",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "apikey",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-dev-v3}}/selfservice/document/:rut/:token",
+					"host": [
+						"{{url-dev-v3}}"
+					],
+					"path": [
+						"selfservice",
+						"document",
+						":rut",
+						":token"
+					],
+					"variable": [
+						{
+							"key": "rut",
+							"value": "76539108"
+						},
+						{
+							"key": "token",
+							"value": "b066f299574820763c19c22132ace576429961eece092b4ea6a4bb1dc1080ee4NzY1MzkxMDgjU1MjZmNkOGZhNWEzZjQ1YjI2NWE2NmNlMThlYzRkOGE3YmI="
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
