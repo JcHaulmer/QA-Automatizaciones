@@ -1,0 +1,33 @@
+{
+	"id": "54e1f7c9-8155-448c-838d-f7dd837278fb",
+	"name": "DTE DEV",
+	"values": [
+		{
+			"key": "url-front-v3",
+			"value": "https://api-frontend.haulmer.dev/v3/dte/core/de",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "url-front-v1",
+			"value": "https://api-frontend.haulmer.dev/v1/dte/",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "url-api-dev",
+			"value": "https://dev-api.haulmer.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "url-dev-v3",
+			"value": "http://devhaulmer.azure-api.net/internal/v3/dte/core/admin",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-11-13T19:41:56.485Z",
+	"_postman_exported_using": "Postman/10.19.17"
+}
