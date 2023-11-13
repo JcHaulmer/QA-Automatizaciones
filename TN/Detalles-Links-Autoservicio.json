@@ -45,6 +45,14 @@
 							"    pm.expect(responseJSON.details.config.invoice).that.is.a('boolean');",
 							"    pm.expect(responseJSON.details.config.ticket).that.is.a('boolean');",
 							"    pm.expect(responseJSON.details.estado).that.is.a('string');",
+							"    pm.expect(responseJSON.details.docs.ticket.dte).that.is.a('number').and.to.equal(39);",
+							"    pm.expect(responseJSON.details.docs.ticket.folio).that.is.a('number').and.to.equal(30125112);",
+							"    pm.expect(responseJSON.details.docs.ticket.fecha).that.is.a('string').and.to.equal('2023-11-10');",
+							"    pm.expect(responseJSON.details.docs.ticket.estado).that.is.a('string').and.to.equal('Anulado');",
+							"    pm.expect(responseJSON.details.docs.ticket.neto).that.is.a('number').and.to.equal(4958);",
+							"    pm.expect(responseJSON.details.docs.ticket.iva).that.is.a('number').and.to.equal(942);",
+							"    pm.expect(responseJSON.details.docs.ticket.exento).that.is.a('number').and.to.equal(3019);",
+							"    pm.expect(responseJSON.details.docs.ticket.total).that.is.a('number').and.to.equal(8919);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -87,7 +95,7 @@
 						},
 						{
 							"key": "token",
-							"value": "a3aee162453ac7b635ef431920a9544ad9175e242e9f9940bd5d61e59a666d63NzYyNjQ2NzUjU1MjNmY2ZWFmMGE2MWY5MGYzMmMwMDUyMDAzODdjNjVkNGY="
+							"value": "f59ad0c1a9b650bc43b9e2855980b1876dec9a3d50a70faf1043124a1390526bNzYyNjQ2NzUjU1MjYWMwODgzNzhhOTE5YTBkNmQxZGU3NzQ5NzY2MTI5NDI="
 						}
 					]
 				}
@@ -109,8 +117,8 @@
 							"pm.test(\"Content-Type should be JSON\", function () {",
 							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
 							"});",
-							"//valida response time menor a 2000s",
-							"pm.test(\"Response time is less than 2000s\", function () {",
+							"//valida response time menor a 2000ms",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
 							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 							"});",
 							"//valida respuesta con datos correctos",
@@ -131,6 +139,14 @@
 							"    pm.expect(responseJSON.details.config.invoice).that.is.a('boolean');",
 							"    pm.expect(responseJSON.details.config.ticket).that.is.a('boolean');",
 							"    pm.expect(responseJSON.details.estado).that.is.a('string');",
+							"    pm.expect(responseJSON.details.docs.ticket.dte).that.is.a('number').and.to.equal(41);",
+							"    pm.expect(responseJSON.details.docs.ticket.folio).that.is.a('number').and.to.equal(92);",
+							"    pm.expect(responseJSON.details.docs.ticket.fecha).that.is.a('string').and.to.equal('2023-10-29');",
+							"    pm.expect(responseJSON.details.docs.ticket.estado).that.is.a('string').and.to.equal('Emitido');",
+							"    pm.expect(responseJSON.details.docs.ticket.neto).that.is.a('number').and.to.equal(0);",
+							"    pm.expect(responseJSON.details.docs.ticket.iva).that.is.a('number').and.to.equal(0);",
+							"    pm.expect(responseJSON.details.docs.ticket.exento).that.is.a('number').and.to.equal(5000);",
+							"    pm.expect(responseJSON.details.docs.ticket.total).that.is.a('number').and.to.equal(5000);",
 							"});"
 						],
 						"type": "text/javascript"
