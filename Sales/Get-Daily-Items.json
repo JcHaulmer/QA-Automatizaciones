@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "d2883975-6378-4322-9212-a2172f2049d1",
+		"name": "Get Daily Items",
+		"description": "Permite obtener el registro de venta por contribuyente aplicando filtros a la búsqueda.\n\n- Request\n    \n\nMétodo = `POST`\n\nURL base = `https://api.haulmer.dev/v3/sales/`\n\nEndpoint = `item/by-period/:taxpayer`\n\nAuthorization = `X-Api-Key{Header}:9c765c38-ae3a-4bd2-ac5a-9120601d3e30`\n\n- Parámetros\n    \n\n`taxpayer`: Rut sin DV del cliente\n\n- Body\n    \n\n`initDate`: Fecha inicial (datetime)\n\n`endDate`: Fecha final (datetime)\n\n- Pruebas\n    \n\n`HTTP 200`: Validar commerceCode en respuesta.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13259060"
+	},
+	"item": [
+		{
+			"name": "Get Daily Items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//valida response con codigo http 200",
+							"pm.test(\"Correct HTTP code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// valida en response headers como Content-Type sea application/json",
+							"pm.test(\"Content-Type should be JSON\", function () {",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');",
+							"});",
+							"//valida response time menor a 5000ms",
+							"pm.test(\"Response time is less than 5000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+							"});",
+							"//valida que exista property commerceCode en cada item de venta",
+							"pm.test(\"Each sale has property 'commerceCode'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    jsonData.forEach(function (sale) {",
+							"        pm.expect(sale).to.have.property('commerceCode').that.is.a('number');",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "9c765c38-ae3a-4bd2-ac5a-9120601d3e30",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "X-API-Key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"initDate\": \"2023-11-06T22:00:00\",\n    \"endDate\": \"2023-11-07T22:00:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.haulmer.dev/v3/sales/item/by-period/:taxpayer",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haulmer",
+						"dev"
+					],
+					"path": [
+						"v3",
+						"sales",
+						"item",
+						"by-period",
+						":taxpayer"
+					],
+					"variable": [
+						{
+							"key": "taxpayer",
+							"value": "76264675"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
