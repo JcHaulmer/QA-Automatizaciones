@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "3083ce9e-7801-4749-a35b-53ab0f7d2b3c",
+		"name": "Listar Links Autoservicio",
+		"description": "Permite obtener el listado de links de autoservicio generados por un contribuyente desde cualquier integración de OpenFactura\n\n- Request\n    \n\nMétodo = `POST`\n\nURL base = `http://devhaulmer.azure-api.net/internal/v3/dte/core/admin`\n\nEndpoint= `/selfservice/documents/:rut/:limit?page=1`\n\n- Parámetros\n    \n\n`page`: Número de página\n\n`rut`: Rut contribuyente sin DV\n\n`limit`: Limite de links por página\n\n- Autorization:\n    \n\nType(`API Key`)- Key(`apikey`)-Value(`apikey interna rut`)\n\n- Pruebas\n    \n\n`HTTP 200` = Validar schema",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13259060",
+		"_collection_link": "https://restless-firefly-1360-1.postman.co/workspace/QA---Automatizaci%C3%B3n---TN~5268c47c-17b3-4497-8bf6-58f239819a5b/collection/13259060-3083ce9e-7801-4749-a35b-53ab0f7d2b3c?action=share&source=collection_link&creator=13259060"
+	},
+	"item": [
+		{
+			"name": "Listado enlaces [Boxhosting]",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//valida response con codigo http 200",
+							"pm.test(\"Process code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// valida en response headers como Content-Type sea application/json",
+							"pm.test(\"Content-Type should be JSON\", function () {",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"});",
+							"//valida response time menor a 2000ms",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"//valida cada objeto de data contiene schema correcto",
+							"pm.test(\"Each object in data array has valid schema\", function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData.details.data).to.be.an(\"array\").that.is.not.empty;",
+							"    responseData.details.data.forEach(function (obj) {",
+							"        pm.expect(obj.emisor).to.be.a('number').and.to.equal(76264675);",
+							"        pm.expect(obj.token).to.be.a('string');",
+							"        pm.expect(obj.origen).to.be.a('string');",
+							"        pm.expect(obj.orden).to.be.a('string');",
+							"        pm.expect(obj.fecha).to.be.a('string');",
+							"        pm.expect(obj.estado).to.be.a('string');",
+							"        pm.expect(obj.url).to.be.a('string');",
+							"        pm.expect(obj.config.invoice).to.be.a('boolean');",
+							"        pm.expect(obj.config.ticket).to.be.a('boolean');",
+							"        pm.expect(obj.docs).to.be.a('string');",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "b159c92b3715413980398fae21b32092",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "apikey",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url-dev-v3}}/selfservice/documents/:rut/:limit?page=10",
+					"host": [
+						"{{url-dev-v3}}"
+					],
+					"path": [
+						"selfservice",
+						"documents",
+						":rut",
+						":limit"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "10"
+						}
+					],
+					"variable": [
+						{
+							"key": "rut",
+							"value": "76264675"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listado enlaces [Opencloud]",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Process code', function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test('Content-Type should be JSON', function () {",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"})",
+							"",
+							"pm.test('Response time is less than 2000s', function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"})",
+							"",
+							"pm.test(\"Each object in data array has valid schema\", function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData.details.data).to.be.an(\"array\").that.is.not.empty;",
+							"    responseData.details.data.forEach(function (obj) {",
+							"        pm.expect(obj.emisor).to.be.a('number').and.to.equal(76539108);",
+							"        pm.expect(obj.token).to.be.a('string');",
+							"        pm.expect(obj.origen).to.be.a('string');",
+							"        pm.expect(obj.orden).to.be.a('string');",
+							"        pm.expect(obj.fecha).to.be.a('string');",
+							"        pm.expect(obj.estado).to.be.a('string');",
+							"        pm.expect(obj.url).to.be.a('string');",
+							"        pm.expect(obj.config.invoice).to.be.a('boolean');",
+							"        pm.expect(obj.config.ticket).to.be.a('boolean');",
+							"        pm.expect(obj.docs).to.be.a('string');",
+							"    });",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "5718582a263549a98c0ed00c46343734",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "apikey",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url-dev-v3}}/selfservice/documents/:rut/:limit?page=1",
+					"host": [
+						"{{url-dev-v3}}"
+					],
+					"path": [
+						"selfservice",
+						"documents",
+						":rut",
+						":limit"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					],
+					"variable": [
+						{
+							"key": "rut",
+							"value": "76539108"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
